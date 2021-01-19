@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @WebMvcTest(LogDtoTest.TestController.class) //what classes are tested
-@ContextConfiguration(classes=LogDtoTest.TestController.class) //what classes will be in AC
+@ContextConfiguration(classes=LogDtoTest.TestController.class) //what classes will be in ApplContext
 public class LogDtoTest {
 public static @RestController class TestController{
 	static LogDto logDtoExp = new LogDto(new Date(), LogType.NO_EXCEPTION, "artifact", 0, "");
