@@ -53,5 +53,6 @@
 
 	<modules>
 		<module>log-bugs-dto</module>
+		<module>log-bugs-dto2</module>
 	</modules>
 </project>
