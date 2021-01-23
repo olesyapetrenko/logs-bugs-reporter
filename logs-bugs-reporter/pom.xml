@@ -53,6 +53,7 @@
 
 	<modules>
 		<module>log-bugs-dto</module>
-		<module>log-bugs-dto2</module>
+		
+		<module>logs-bugs-mongo-document</module>
 	</modules>
 </project>
