@@ -1,4 +1,5 @@
 package telran.logs.bugs;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import telran.logs.bugs.dto.*;
 
 @ExtendWith(SpringExtension.class)
@@ -48,12 +50,10 @@ public class RandomLogsTest {
 
 	private EnumMap<LogType, String> getMapForTest()
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		Method getMapMethod = randomLogs.getClass()
-				.getDeclaredMethod("getLogArtifactMap");
+		Method getMapMethod = randomLogs.getClass().getDeclaredMethod("getLogArtifactMap");
 		getMapMethod.setAccessible(true);
 		@SuppressWarnings("unchecked")
-		EnumMap<LogType, String> logTypeArtifactsMap =
-				(EnumMap<LogType, String>) getMapMethod.invoke(randomLogs);
+		EnumMap<LogType, String> logTypeArtifactsMap = (EnumMap<LogType, String>) getMapMethod.invoke(randomLogs);
 		return logTypeArtifactsMap;
 	}
 	@Test
