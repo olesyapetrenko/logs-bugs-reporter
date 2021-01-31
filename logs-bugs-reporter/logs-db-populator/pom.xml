@@ -5,11 +5,11 @@
     <artifactId>logs-bugs-reporter</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>logs-provider</artifactId>
+  <artifactId>logs-db-populator</artifactId>
   <dependencies>
 <dependency>
 <groupId>telran.logs.bugs</groupId>
-<artifactId>log-bugs-dto</artifactId>
+<artifactId>logs-bugs-mongo-document</artifactId>
 <version>0.0.1</version>
 </dependency>
 		<dependency>

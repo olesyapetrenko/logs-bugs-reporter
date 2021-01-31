@@ -5,6 +5,12 @@ import java.util.Date;
 import javax.validation.constraints.*;
 
 public class LogDto {
+	@Override
+	public String toString() {
+		return "LogDto [dateTime=" + dateTime + ", logType=" + logType + ", artifact=" + artifact + ", responseTime="
+				+ responseTime + ", result=" + result + "]";
+	}
+
 	@NotNull
 	public Date dateTime;
 	@NotNull

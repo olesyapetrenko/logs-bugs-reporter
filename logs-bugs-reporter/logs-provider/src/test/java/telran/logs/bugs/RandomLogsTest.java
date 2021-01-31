@@ -1,5 +1,4 @@
 package telran.logs.bugs;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -10,17 +9,22 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.stream.binder.test.OutputDestination;
+import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
+import org.springframework.context.annotation.Import;
+import org.springframework.messaging.Message;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import telran.logs.bugs.dto.*;
-
-@ExtendWith(SpringExtension.class)
-@EnableAutoConfiguration
-@ContextConfiguration(classes = RandomLogs.class)
+//@ExtendWith(SpringExtension.class)
+//@EnableAutoConfiguration 
+//@ContextConfiguration(classes = RandomLogs.class)
+@SpringBootTest
+@Import(TestChannelBinderConfiguration.class)
 public class RandomLogsTest {
 	private static final String AUTHENTICATION_ARTIFACT = "authentication";
 	private static final String AUTHORIZATION_ARTIFACT = "authorization";
@@ -28,7 +32,8 @@ public class RandomLogsTest {
 	private static final long N_LOGS = 100000;
 	@Autowired
 	RandomLogs randomLogs;
-	 
+	@Autowired
+	 OutputDestination output;
 	@Test
 	void logTypeArtifactTest() throws Exception {
 		
@@ -101,6 +106,16 @@ public class RandomLogsTest {
 			}
 		});
 	}
+
+	@Test
+	void sendRandomLogs() throws InterruptedException {
+		for (int i = 0; i < 10; i++) {
+			byte[] messageBytes = output.receive().getPayload();
+			String messageStr = new String(messageBytes);
+			System.out.println(messageStr);
+			Thread.sleep(1500);
+		}
+	} 
 
 
 	
