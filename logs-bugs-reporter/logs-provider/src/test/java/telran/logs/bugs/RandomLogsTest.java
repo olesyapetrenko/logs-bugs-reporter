@@ -1,4 +1,5 @@
 package telran.logs.bugs;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,9 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import telran.logs.bugs.dto.*;
-//@ExtendWith(SpringExtension.class)
-//@EnableAutoConfiguration 
-//@ContextConfiguration(classes = RandomLogs.class)
+
 @SpringBootTest
 @Import(TestChannelBinderConfiguration.class)
 public class RandomLogsTest {
@@ -30,6 +29,7 @@ public class RandomLogsTest {
 	private static final String AUTHORIZATION_ARTIFACT = "authorization";
 	private static final String CLASS_ARTIFACT = "class";
 	private static final long N_LOGS = 100000;
+	private static final int N_LOGS_SENT = 10;
 	@Autowired
 	RandomLogs randomLogs;
 	@Autowired
@@ -47,7 +47,7 @@ public class RandomLogsTest {
 				assertEquals(AUTHORIZATION_ARTIFACT, v);
 				break;
 			default:
-				assertEquals(CLASS_ARTIFACT, v);
+				testClassArtifact(v);
 			
 			}
 		});
@@ -55,10 +55,12 @@ public class RandomLogsTest {
 
 	private EnumMap<LogType, String> getMapForTest()
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		Method getMapMethod = randomLogs.getClass().getDeclaredMethod("getLogArtifactMap");
+		Method getMapMethod = randomLogs.getClass()
+				.getDeclaredMethod("getLogArtifactMap");
 		getMapMethod.setAccessible(true);
 		@SuppressWarnings("unchecked")
-		EnumMap<LogType, String> logTypeArtifactsMap = (EnumMap<LogType, String>) getMapMethod.invoke(randomLogs);
+		EnumMap<LogType, String> logTypeArtifactsMap =
+				(EnumMap<LogType, String>) getMapMethod.invoke(randomLogs);
 		return logTypeArtifactsMap;
 	}
 	@Test
@@ -71,9 +73,8 @@ public class RandomLogsTest {
 		Map<LogType, Long> logTypeOccurrences = 
 				logs.stream().collect(Collectors.groupingBy(l -> l.logType, Collectors.counting()));
 		logTypeOccurrences.forEach((k, v) -> {
-			System.out.printf("LogType: %s, count: %d\n", k, v);
+			System.out.println();
 		});
-		assertEquals(LogType.values().length, logTypeOccurrences.entrySet().size());
 		
 	}
 
@@ -92,31 +93,56 @@ public class RandomLogsTest {
 				break;
 			
 			case NO_EXCEPTION:
-				assertEquals(CLASS_ARTIFACT, log.artifact);
-				assertTrue(log.responseTime > 0);
-				assertTrue(log.result.isEmpty());
+				testNoException(log);
 				break;
 			
 			default:
-				assertEquals(CLASS_ARTIFACT, log.artifact);
-				assertEquals(0, log.responseTime);
-				assertTrue(log.result.isEmpty());
+				testNonSecException(log);
 				break;
 			
 			}
 		});
 	}
 
+	private void testNonSecException(LogDto log) {
+		testClassArtifact(log.artifact);
+		assertEquals(0, log.responseTime);
+		assertTrue(log.result.isEmpty());
+	}
+
+	private void testClassArtifact(String artifact) {
+		assertEquals(CLASS_ARTIFACT, artifact.substring(0, 5));
+		int classNumber = Integer.parseInt(artifact.substring(5));
+		assertTrue(classNumber >= 1 && classNumber <= randomLogs.nClasses);
+	}
+
+	private void testNoException(LogDto log) {
+		testClassArtifact(log.artifact);
+		assertTrue(log.responseTime > 0);
+		assertTrue(log.result.isEmpty());
+	}
 	@Test
-	void sendRandomLogs() throws InterruptedException {
-		for (int i = 0; i < 10; i++) {
-			byte[] messageBytes = output.receive().getPayload();
+	void sendRandomLogs() throws InterruptedException, JsonMappingException, JsonProcessingException {
+		HashSet<String> set = new HashSet<>();
+		for (int i = 0; i < N_LOGS_SENT; i++) {
+			Message<byte[]> receivedMessage = null;
+			while (receivedMessage == null) {
+				receivedMessage = output.receive();
+			}
+			byte[] messageBytes = receivedMessage.getPayload();
 			String messageStr = new String(messageBytes);
-			System.out.println(messageStr);
-			Thread.sleep(1500);
+			set.add(messageStr);
 		}
-	} 
-
-
-	
+		assertEquals(N_LOGS_SENT, set.size());
+	}
 }
+
+//@Test
+//	void sendRandomLogs() throws InterruptedException {
+//		for (int i = 0; i < 10; i++) {
+//			byte[] messageBytes = output.receive().getPayload();
+//			String messageStr = new String(messageBytes);
+//			System.out.println(messageStr);
+//			Thread.sleep(1500);
+//		}
+//	} 
