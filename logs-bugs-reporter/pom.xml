@@ -11,7 +11,6 @@
 	<groupId>telran.logs.bugs</groupId>
 	<artifactId>logs-bugs-reporter</artifactId>
 	<version>0.0.1</version>
-	
 	<packaging>pom</packaging>
 	<name>logs-bugs-reporter</name>
 	<description>logs management and opening bugs from the exceptions</description>
@@ -32,11 +31,6 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -53,7 +47,6 @@
 
 	<modules>
 		<module>log-bugs-dto</module>
-		
 		<module>logs-bugs-mongo-document</module>
 		<module>logs-provider</module>
 		<module>logs-db-populator</module>
