@@ -9,13 +9,19 @@ public class Programmer {
 	long id;
 	@Column(name = "name", nullable = false)
 	String name;
-
+	@Column(name="email", nullable = false, unique = true)
+    String email;
 	public Programmer() {
 	}
 
-	public Programmer(long id, String name) {
+	public Programmer(long id, String name, String email) {
 		this.id = id;
 		this.name = name;
+		this.email = email;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public long getId() {
@@ -30,6 +36,7 @@ public class Programmer {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -44,6 +51,11 @@ public class Programmer {
 		if (getClass() != obj.getClass())
 			return false;
 		Programmer other = (Programmer) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
 		if (id != other.id)
 			return false;
 		if (name == null) {
@@ -53,5 +65,7 @@ public class Programmer {
 			return false;
 		return true;
 	}
+	
 
+	
 }
