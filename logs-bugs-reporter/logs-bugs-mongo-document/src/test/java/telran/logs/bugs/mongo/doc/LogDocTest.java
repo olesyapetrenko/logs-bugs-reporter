@@ -1,4 +1,4 @@
-package telran.logs.bugs.mongo.doc;
+  package telran.logs.bugs.mongo.doc;
 
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,7 +22,7 @@ public class LogDocTest {
 	@Test
 	void docStoreTest() {
 		LogDto logDto = new LogDto(new Date(), LogType.NO_EXCEPTION, "artifact", 20, "result");
-		LogDoc doc = logs.save(new LogDoc(logDto));
+		logs.save(new LogDoc(logDto));
 		LogDoc actualDoc = logs.findAll().get(0);
 		assertEquals(logDto, actualDoc.getLogDto());
 		
