@@ -33,4 +33,9 @@ Flux<LogDto> getAllLogs() {
 			LOG.debug("Logs Exceptions sent to a client");
 		return result;
 	}
+	
+	@GetMapping(value="/logs/distribution")
+	Flux<LogTypeCount> getLogTypeOccurrences() {
+		return logsInfo.getLogTypeOccurrences();
+	}
 }

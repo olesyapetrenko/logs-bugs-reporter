@@ -9,6 +9,7 @@ import telran.logs.bugs.dto.*;
 
 @Document(collection="logs")
 public class LogDoc {
+	public static final String LOG_TYPE = "logType";
 	@Id // not necessarily
 	ObjectId id; // get a unique number in Mongo
 	public ObjectId getId() {
