@@ -12,6 +12,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import telran.logs.bugs.dto.BugStatus;
+import telran.logs.bugs.dto.OpeningMethod;
+import telran.logs.bugs.dto.Seriousness;
 import telran.logs.bugs.jpa.entities.*;
 
 @ExtendWith(SpringExtension.class)
@@ -31,7 +34,7 @@ void bugCreation () {
 	Artifact artifact = new Artifact("authentication", programmer);
 	artifacts.save(artifact);
 	Bug bug = new Bug("description", LocalDate.now(), null, BugStatus.ASSIGNED,
-			Seriousness.MINOR, OpenningMethod.AUTOMATIC, programmer);
+			Seriousness.MINOR, OpeningMethod.AUTOMATIC, programmer);
 	bugs.save(bug);
 	List<Bug> bugsRes = bugs.findAll();
 	assertEquals(1, bugsRes.size());

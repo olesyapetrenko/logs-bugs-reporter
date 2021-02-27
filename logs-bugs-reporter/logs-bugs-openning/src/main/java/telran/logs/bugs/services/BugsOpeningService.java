@@ -9,8 +9,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import telran.logs.bugs.dto.BugStatus;
 import telran.logs.bugs.dto.LogDto;
 import telran.logs.bugs.dto.LogType;
+import telran.logs.bugs.dto.OpeningMethod;
+import telran.logs.bugs.dto.Seriousness;
 import telran.logs.bugs.jpa.entities.*;
 import telran.logs.bugs.repo.ArtifactsRepo;
 import telran.logs.bugs.repo.BugsRepo;
@@ -35,7 +38,7 @@ BugsRepo bugsRepo;
 		BugStatus bugStatus = programmer == null ? BugStatus.OPENNED : BugStatus.ASSIGNED ;
 		Seriousness seriousness = getSeriousness(logException.logType);
 		Bug bug = new Bug(description,
-				LocalDate.now(), null, bugStatus, seriousness, OpenningMethod.AUTOMATIC,
+				LocalDate.now(), null, bugStatus, seriousness, OpeningMethod.AUTOMATIC,
 				programmer);
 		bugsRepo.save(bug);
 		LOG.debug("Opening service has added bug with description: {},"

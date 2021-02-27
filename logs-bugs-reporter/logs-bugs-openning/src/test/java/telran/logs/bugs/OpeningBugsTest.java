@@ -43,13 +43,13 @@ LogDto logExceptions[] = {
 Programmer prExpected = new Programmer(123, "Moshe", "moshe@gmail.com");
 Bug bugs[] = {
 		new Bug("AUTHENTICATION_EXCEPTION Something wrong", LocalDate.now(),
-				null, BugStatus.ASSIGNED, Seriousness.BLOCKING, OpenningMethod.AUTOMATIC, prExpected),
+				null, BugStatus.ASSIGNED, Seriousness.BLOCKING, OpeningMethod.AUTOMATIC, prExpected),
 		new Bug("AUTHORIZATION_EXCEPTION Something wrong", LocalDate.now(),
-				null, BugStatus.ASSIGNED, Seriousness.CRITICAL, OpenningMethod.AUTOMATIC, prExpected),
+				null, BugStatus.ASSIGNED, Seriousness.CRITICAL, OpeningMethod.AUTOMATIC, prExpected),
 		new Bug("SERVER_EXCEPTION Something wrong", LocalDate.now(),
-				null, BugStatus.ASSIGNED, Seriousness.CRITICAL, OpenningMethod.AUTOMATIC, prExpected),
+				null, BugStatus.ASSIGNED, Seriousness.CRITICAL, OpeningMethod.AUTOMATIC, prExpected),
 		new Bug("BAD_REQUEST_EXCEPTION Something wrong", LocalDate.now(),
-				null, BugStatus.OPENNED, Seriousness.MINOR, OpenningMethod.AUTOMATIC, null),
+				null, BugStatus.OPENNED, Seriousness.MINOR, OpeningMethod.AUTOMATIC, null),
 };
 
 @Test
