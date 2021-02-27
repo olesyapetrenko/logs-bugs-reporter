@@ -45,7 +45,6 @@ public class LogsDbPopulatorTest {
 		sendLog(logDto); 
 		List<LogDoc> logDocs = logsRepo.findAll().delaySubscription(Duration.ofMillis(2000))
 				.buffer().blockFirst();
-//		List<LogDoc> logDocs = logsRepo.findAll().buffer(Duration.ofMillis(2000)).blockFirst();
 		assertEquals(1, logDocs.size());
 		assertEquals(logDto, logDocs.get(0).getLogDto());
 	}
