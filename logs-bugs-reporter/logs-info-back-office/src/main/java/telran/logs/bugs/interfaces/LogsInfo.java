@@ -14,7 +14,5 @@ public interface LogsInfo {
 	Flux<LogType> getMostEncounteredExceptionTypes(int nExceptions);
 	Flux<ArtifactCount> getArtifactOccurrences();
 	Flux<String> getMostEncounteredArtifacts(int nArtifacts);
-	
-	
 
 }
