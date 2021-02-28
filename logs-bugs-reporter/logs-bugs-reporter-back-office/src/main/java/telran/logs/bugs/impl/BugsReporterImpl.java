@@ -80,7 +80,7 @@ public class BugsReporterImpl implements BugsReporter {
 	public void assignBug(AssignBugData assignData) {
 		// FIXME exceptions
 		Bug bug = bugRepository.findById(assignData.bugId).orElse(null);
-		bug.setDescription(bug.getDescription() + "\nAssignment Description: " + assignData.description);
+		bug.setDescription(bug.getDescription() + BugsReporter.ASSIGNMENT_DESCRIPTION_TITLE + assignData.description);
 		Programmer programmer = programmerRepository.findById(assignData.programmerId).orElse(null);
 		bug.setStatus(BugStatus.ASSIGNED);
 		bug.setProgrammer(programmer);

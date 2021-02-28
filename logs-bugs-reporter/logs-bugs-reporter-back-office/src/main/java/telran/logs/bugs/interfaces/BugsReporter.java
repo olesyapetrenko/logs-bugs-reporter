@@ -6,6 +6,7 @@ import telran.logs.bugs.dto.*;
 
 
 public interface BugsReporter {
+	String ASSIGNMENT_DESCRIPTION_TITLE = "\nAssignment Description: ";
 	ProgrammerDto addProgrammer(ProgrammerDto programmerDto);
 	ArtifactDto addArtifact(ArtifactDto artifactDto);
 	BugResponseDto openBug(BugDto bugDto);
