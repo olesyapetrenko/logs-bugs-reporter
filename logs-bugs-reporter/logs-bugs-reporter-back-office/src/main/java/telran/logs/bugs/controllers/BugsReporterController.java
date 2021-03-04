@@ -14,9 +14,11 @@ import javax.validation.Valid;
 
 @RestController
 public class BugsReporterController {
+	
 	static Logger LOG = LoggerFactory.getLogger(BugsReporterController.class);
 @Autowired
 BugsReporter bugsReporter;
+
 @PostMapping(BUGS_OPEN)
 BugResponseDto openBug(@Valid @RequestBody BugDto bugDto) {
 	BugResponseDto res = bugsReporter.openBug(bugDto);
@@ -47,5 +49,11 @@ List<BugResponseDto> getBugsOfProgrammer(@RequestParam(name=PROGRAMMER_ID) long 
 	LOG.debug("found {} bugs", result.size());
 	return result ;
 }
+@GetMapping(BUGS_PROGRAMMERS_COUNT)
+List<EmailBugsCount> getEmailBugsCount() {
+	List<EmailBugsCount> result = bugsReporter.getEmailBugsCounts();
+	result.forEach(ec -> LOG.debug("email: {}; count: {}", ec.getEmail(),ec.getCount()));
+	return result ;
 }
-
+}
+  

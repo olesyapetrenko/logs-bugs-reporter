@@ -11,7 +11,6 @@ public interface BugsReporter {
 	ArtifactDto addArtifact(ArtifactDto artifactDto);
 	BugResponseDto openBug(BugDto bugDto);
 	BugResponseDto openAndAssignBug(BugAssignDto bugDto);
-	
 	void assignBug(AssignBugData assignData);
 	List<BugResponseDto> getNonAssignedBugs();
 	void closeBug(CloseBugData closeData);

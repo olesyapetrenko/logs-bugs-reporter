@@ -22,7 +22,6 @@ public class BugsReporterImpl implements BugsReporter {
 	ArtifactRepository artifactRepository;
 	ProgrammerRepository programmerRepository;
 
-	@Autowired
 	public BugsReporterImpl(BugRepository bugRepository, ArtifactRepository artifactRepository,
 			ProgrammerRepository programmerRepository) {
 		this.bugRepository = bugRepository;
@@ -89,8 +88,8 @@ public class BugsReporterImpl implements BugsReporter {
 
 	@Override
 	public List<BugResponseDto> getNonAssignedBugs() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Bug> bugs = bugRepository.findByStatus(BugStatus.OPENNED);
+		return toListBugResponseDto(bugs);
 	}
 
 	@Override
@@ -101,8 +100,9 @@ public class BugsReporterImpl implements BugsReporter {
 
 	@Override
 	public List<BugResponseDto> getUnClosedBugsMoreDuration(int days) {
-		// TODO Auto-generated method stub
-		return null;
+		LocalDate dateOpen = LocalDate.now().minusDays(days);
+		List<Bug> bugs = bugRepository.findByStatusNotAndDateOpenBefore(BugStatus.CLOSED, dateOpen );
+		return toListBugResponseDto(bugs);
 	}
 
 	@Override
@@ -117,8 +117,9 @@ public class BugsReporterImpl implements BugsReporter {
 
 	@Override
 	public List<EmailBugsCount> getEmailBugsCounts() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<EmailBugsCount> result = bugRepository.emailBugsCounts();
+		return result ;
 	}
 
 	@Override

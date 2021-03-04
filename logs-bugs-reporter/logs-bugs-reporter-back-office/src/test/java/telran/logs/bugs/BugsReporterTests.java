@@ -26,10 +26,52 @@ import static telran.logs.bugs.api.BugsReporterApi.*;
 @AutoConfigureDataJpa
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BugsReporterTests {
+	static class EmailBugCountTest implements EmailBugsCount {
+		public EmailBugCountTest(String email, long count) {
+					super();
+					this.email = email;
+					this.count = count;
+				}
+
+		@Override
+				public int hashCode() {
+					return Objects.hash(count, email);
+				}
+
+				@Override
+				public boolean equals(Object obj) {
+					if (this == obj)
+						return true;
+					if (obj == null)
+						return false;
+					if (getClass() != obj.getClass())
+						return false;
+					EmailBugCountTest other = (EmailBugCountTest) obj;
+					return count == other.count && Objects.equals(email, other.email);
+				}
+
+		String email;
+		long count;
+		public EmailBugCountTest() {
+		}
+
+				@Override
+				public String getEmail() {
+					return email;
+				}
+
+				@Override
+				public long getCount() {
+					
+					return count;
+				}
+				
+			}
 	private static final @NotEmpty String DESCRIPTION = "Not working";
 	private static final LocalDate DATE_OPEN = LocalDate.of(2020,12,1);
 	private static final @Min(1) long PROGRAMMER_ID_VALUE = 123;
 	private static final @Email String EMAIL ="moshe@gmail.com";
+	private static final @Email String VASYA_EMAIL = "vasya@gmail.com";
 	BugDto bugUnAssigned = new BugDto(Seriousness.BLOCKING, DESCRIPTION,
 			DATE_OPEN);
 	BugAssignDto bugAssigned2 = new BugAssignDto(Seriousness.BLOCKING, DESCRIPTION, DATE_OPEN, PROGRAMMER_ID_VALUE);
@@ -45,13 +87,16 @@ public class BugsReporterTests {
 			DATE_OPEN, PROGRAMMER_ID_VALUE, null, BugStatus.ASSIGNED, OpeningMethod.MANUAL);
 	List<BugResponseDto> expectedBugs123 = Arrays.asList(expectedAssigned1,
 			expectedAssigned2, expectedAssigned3);
+	List<EmailBugCountTest> expectedEmailCounts = Arrays.asList(new EmailBugCountTest(EMAIL, 3),
+			new EmailBugCountTest(VASYA_EMAIL, 0));
 	@Autowired
 WebTestClient testClient;
 	@Test
 	@Order(1)
 	void addProgrammers() {
 		ProgrammerDto programmer = new ProgrammerDto(PROGRAMMER_ID_VALUE,"Moshe", EMAIL);
-		
+		addProgrammerRequest(programmer);
+		programmer = new ProgrammerDto(PROGRAMMER_ID_VALUE + 1, "Vasya", VASYA_EMAIL);
 		addProgrammerRequest(programmer);
 	}
 
@@ -126,5 +171,10 @@ WebTestClient testClient;
 		.exchange().expectStatus().isBadRequest();
 	}
 	
+	@Test
+	void emailCounts() {
+		testClient.get().uri(BUGS_PROGRAMMERS_COUNT).exchange().expectStatus().isOk()
+		.expectBodyList(EmailBugCountTest.class).isEqualTo(expectedEmailCounts);
+	}
 
 }
