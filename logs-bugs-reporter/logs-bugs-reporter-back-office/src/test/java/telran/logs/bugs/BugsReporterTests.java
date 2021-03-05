@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 import javax.validation.constraints.*;
-
-
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
@@ -100,11 +98,10 @@ public class BugsReporterTests {
 	
 	List<EmailBugCountTest> expectedEmailCounts = Arrays.asList(new EmailBugCountTest(MOSHE_EMAIL, 3),
 			new EmailBugCountTest(VASYA_EMAIL, 0));
+	List<BugResponseDto> expectedListUnClosed = Arrays.asList(expectedAssigned1,expectedAssigned3);
 	
-	List<BugResponseDto> expectedListUnClosed = Arrays.asList(expectedAssigned1, expectedAssigned2, expectedAssigned3);
-	
-//	List<BugResponseDto> expectedBugsAfterClose = Arrays.asList(expectedAssigned1,
-//			expectedAssigned2,  expectedAssigned3);
+	List<BugResponseDto> expectedBugsAfterClose = Arrays.asList(expectedAssigned1,
+			expectedClosed2, expectedAssigned3);
 	
 	List<SeriousnessBugCount> seriousnessBugsDistribution = Arrays.asList(
 			new SeriousnessBugCount(Seriousness.BLOCKING, 3),
@@ -188,11 +185,11 @@ WebTestClient testClient;
 	void unclosedBugsDuration() {
 		getListBugs(expectedListUnClosed, BUGS_UNCLOSED + "?" + N_DAYS + "=" + DAYS);
 	}
-//	@Test
-//	@Order(8)
-//	void bugsProgrammersAfterClosing() {
-//		bugsProgrammerTest(expectedBugsAfterClose);
-//	}
+	@Test
+	@Order(8)
+	void bugsProgrammersAfterClosing() {
+		bugsProgrammerTest(expectedBugsAfterClose);
+	}
 	@Test
 	void bugsProgrammersNoProgrammerID() {
 		testClient.get().uri(BUGS_PROGRAMMERS + "?" + PROGRAMMER_ID + "=" + 1000).exchange().expectStatus().isOk()

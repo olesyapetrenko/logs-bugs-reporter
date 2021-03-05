@@ -98,6 +98,7 @@ public class BugsReporterImpl implements BugsReporter {
 	}
 
 	@Override
+	@Transactional
 	public void closeBug(CloseBugData closeData) {
 		//FIXME exceptions
 				Bug bug = bugRepository.findById(closeData.bugId).orElse(null);
