@@ -7,7 +7,8 @@ import telran.logs.bugs.dto.BugStatus;
 import telran.logs.bugs.dto.OpeningMethod;
 import telran.logs.bugs.dto.Seriousness;
 @Entity
-@Table(name="bugs")
+@Table(name="bugs", indexes = {@Index(columnList = "programmer_id"),
+		@Index(columnList = "seriousness"), @Index(columnList = "status")})
 public class Bug {
 @Id
 @GeneratedValue
