@@ -1,6 +1,7 @@
 package telran.logs.bugs.dto;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.validation.constraints.*;
 
@@ -20,14 +21,12 @@ public class BugResponseDto extends BugAssignDto {
 		this.bugId = bugId;
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + (int) (bugId ^ (bugId >>> 32));
-		result = prime * result + ((dateClose == null) ? 0 : dateClose.hashCode());
-		result = prime * result + ((openingMethod == null) ? 0 : openingMethod.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + Objects.hash(bugId, dateClose, openingMethod, status);
 		return result;
 	}
 
@@ -40,18 +39,10 @@ public class BugResponseDto extends BugAssignDto {
 		if (getClass() != obj.getClass())
 			return false;
 		BugResponseDto other = (BugResponseDto) obj;
-		if (bugId != other.bugId)
-			return false;
-		if (dateClose == null) {
-			if (other.dateClose != null)
-				return false;
-		} else if (!dateClose.equals(other.dateClose))
-			return false;
-		if (openingMethod != other.openingMethod)
-			return false;
-		if (status != other.status)
-			return false;
-		return true;
+		return bugId == other.bugId && Objects.equals(dateClose, other.dateClose)
+				&& openingMethod == other.openingMethod && status == other.status;
 	}
+
+
 
 }

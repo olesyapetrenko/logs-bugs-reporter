@@ -1,16 +1,18 @@
 package telran.logs.bugs.impl;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import telran.logs.bugs.dto.*;
 import telran.logs.bugs.interfaces.BugsReporter;
+import telran.logs.bugs.jpa.entities.Artifact;
 import telran.logs.bugs.jpa.entities.Bug;
 import telran.logs.bugs.jpa.entities.Programmer;
 import telran.logs.bugs.jpa.repo.*;
@@ -18,10 +20,11 @@ import telran.logs.bugs.jpa.repo.*;
 @Service
 public class BugsReporterImpl implements BugsReporter {
 
+	public static final String CLOSING_DESCRIPTION = "\nClosing description:\n";
 	BugRepository bugRepository;
 	ArtifactRepository artifactRepository;
 	ProgrammerRepository programmerRepository;
-
+ 
 	public BugsReporterImpl(BugRepository bugRepository, ArtifactRepository artifactRepository,
 			ProgrammerRepository programmerRepository) {
 		this.bugRepository = bugRepository;
@@ -39,8 +42,10 @@ public class BugsReporterImpl implements BugsReporter {
 
 	@Override
 	public ArtifactDto addArtifact(ArtifactDto artifactDto) {
-		// TODO Auto-generated method stub
-		return null;
+		// FIXME exceptions handling 
+				Programmer programmer = programmerRepository.findById(artifactDto.programmerId).orElse(null);
+				artifactRepository.save(new Artifact(artifactDto.artifactId,programmer ));
+				return artifactDto;
 	}
 
 	@Override
@@ -94,7 +99,12 @@ public class BugsReporterImpl implements BugsReporter {
 
 	@Override
 	public void closeBug(CloseBugData closeData) {
-		// TODO Auto-generated method stub
+		//FIXME exceptions
+				Bug bug = bugRepository.findById(closeData.bugId).orElse(null);
+				LocalDate dateClose = closeData.dateClose == null ? LocalDate.now() : closeData.dateClose;
+				bug.setStatus(BugStatus.CLOSED);
+				bug.setDateClose(dateClose);
+				bug.setDescription(bug.getDescription() + CLOSING_DESCRIPTION + closeData.description);
 
 	}
 
@@ -124,14 +134,25 @@ public class BugsReporterImpl implements BugsReporter {
 
 	@Override
 	public List<String> getProgrammersMostBugs(int nProgrammers) {
-		// TODO Auto-generated method stub
-		return null;
+		return bugRepository.programmersMostBugs(nProgrammers);
 	}
 
 	@Override
 	public List<String> getProgrammersLeastBugs(int nProgrammers) {
-		// TODO Auto-generated method stub
-		return null;
+		return bugRepository.programmersLeastBugs(nProgrammers);
+	}
+
+	@Override
+	public List<SeriousnessBugCount> getSeriousnessBugCounts() {
+		return Arrays.stream(Seriousness.values()).map(s -> 
+		new SeriousnessBugCount(s, bugRepository.countBySeriousness(s))
+		).sorted((s1, s2) -> Long.compare(s2.getCount(), s1.getCount())) .collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Seriousness> getSeriousnessTypesWithMostBugs(int nTypes) {
+		
+		return  bugRepository.seriousnessMostBugs(nTypes);
 	}
 
 }

@@ -1,7 +1,6 @@
 package telran.logs.bugs.dto;
 
 public class LogTypeCount {
-
 	public static final String LOG_TYPE = "logType";
 	public LogType logType;
 	public long count;
@@ -11,9 +10,7 @@ public class LogTypeCount {
 		this.logType = logType;
 		this.count = count;
 	}
-
 	public LogTypeCount() {
-
 	}
 
 	@Override
@@ -24,7 +21,6 @@ public class LogTypeCount {
 		result = prime * result + ((logType == null) ? 0 : logType.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -40,5 +36,4 @@ public class LogTypeCount {
 			return false;
 		return true;
 	}
-
 }
