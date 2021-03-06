@@ -86,7 +86,7 @@ public class LogsInfoTest {
 		setUpDbInitial();
 		testClient.get().uri(LOGS).exchange().expectStatus().isOk().expectBodyList(LogDto.class).isEqualTo(allLogs);
 	}
-	
+
 	private void setUpDbInitial() {
 		Flux<LogDoc> savingFlux = logRepository.saveAll(allLogs.stream().map(LogDoc::new).collect(Collectors.toList()));
 		savingFlux.buffer().blockFirst();
@@ -103,7 +103,7 @@ public class LogsInfoTest {
 	void logTypesBadRequest() {
 		badRequest(LOGS_TYPE, TYPE, "exception");
 	}
-	
+
 	private void badRequest(String baseUrl, String parameter, String value) {
 		testClient.get().uri(baseUrl + "?" + parameter + "=" + value).exchange().expectStatus().isBadRequest();
 	}
@@ -144,7 +144,7 @@ public class LogsInfoTest {
 
 	@Test
 	void artifactMostEncountered() {
-		String[] expected = { ARTIFACT_NO_EXCEPTION, ARTIFACT_AUTHENTICATION }; 
+		String[] expected = { ARTIFACT_NO_EXCEPTION, ARTIFACT_AUTHENTICATION };
 		runTest(expected, LOGS_ARTIFACT_ENCOUNTERED, String[].class);
 	}
 
@@ -156,6 +156,22 @@ public class LogsInfoTest {
 
 	private <T> void runTest(T[] expected, String uriString, Class<T[]> clazz) {
 		testClient.get().uri(uriString).exchange().expectStatus().isOk().expectBody(clazz).isEqualTo(expected);
+	}
+
+	@Test
+	void badRequestMostArtifacts() {
+		String uriStr = LOGS_ARTIFACT_ENCOUNTERED + "?" + AMOUNT + "=-1";
+		badGetRequest(uriStr);
+	}
+
+	@Test
+	void badRequestMostExceptionTypes() {
+		String uriStr = LOGS_EXCEPTION_ENCOUNTERED + "?" + AMOUNT + "=0";
+		badGetRequest(uriStr);
+	}
+
+	private void badGetRequest(String uriStr) {
+		testClient.get().uri(uriStr).exchange().expectStatus().isBadRequest();
 	}
 
 }
