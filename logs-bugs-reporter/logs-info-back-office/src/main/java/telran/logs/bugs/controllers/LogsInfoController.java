@@ -2,6 +2,7 @@ package telran.logs.bugs.controllers;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,12 +10,15 @@ import static telran.logs.bugs.api.LogsInfoApi.*;
 
 import java.util.List;
 
+import javax.validation.constraints.Min;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import telran.logs.bugs.dto.*;
 import telran.logs.bugs.interfaces.LogsInfo;
 
 @RestController 
+@Validated
 public class LogsInfoController {
 	static Logger LOG = LoggerFactory.getLogger(LogsInfoController.class);
 	@Autowired
@@ -44,7 +48,7 @@ Flux<LogDto> getAllLogs() {
 	}
 	
 	@GetMapping(value = LOGS_EXCEPTION_ENCOUNTERED)
-	Flux<LogType> getMostEncounteredExceptionTypes( @RequestParam(name = AMOUNT, defaultValue = "2") int nExceptions){
+	Flux<LogType> getMostEncounteredExceptionTypes( @RequestParam(name = AMOUNT, defaultValue = "2") @Min(1) int nExceptions){
 		return logsInfo.getMostEncounteredExceptionTypes(nExceptions);
 	}
 	
@@ -54,7 +58,7 @@ Flux<LogDto> getAllLogs() {
 	}
 	
 	@GetMapping(value = LOGS_ARTIFACT_ENCOUNTERED)
-	Mono<List<String>> getMostEncounteredArtifacts(@RequestParam(name = AMOUNT, defaultValue = "2") int nArtifacts){
+	Mono<List<String>> getMostEncounteredArtifacts(@RequestParam(name = AMOUNT, defaultValue = "2") @Min(1) int nArtifacts){
 		return logsInfo.getMostEncounteredArtifacts(nArtifacts).collectList();
 		
 	}

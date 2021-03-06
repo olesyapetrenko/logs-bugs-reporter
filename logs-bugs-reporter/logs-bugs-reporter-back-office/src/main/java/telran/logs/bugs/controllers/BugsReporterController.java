@@ -70,19 +70,19 @@ void closeBug(@Valid @RequestBody CloseBugData closeData) {
 	LOG.debug("closeBug: bug {} closed", closeData.bugId);
 }
 @GetMapping(BUGS_UNCLOSED) 
-List<BugResponseDto> getBugsUnclosed(@RequestParam(N_DAYS) int days) {
+List<BugResponseDto> getBugsUnclosed(@RequestParam(N_DAYS) @Min(0) int days) {
 	List<BugResponseDto> res = bugsReporter.getUnClosedBugsMoreDuration(days);
 	LOG.debug("getBugsUnclosed: {} unclosed bugs", res.size());
 	return res ;
 }
 @GetMapping(BUGS_PROGRAMMERS_MOST)
-List<String> getMostBugsProgrammers(@RequestParam(name=N_PROGRAMMERS, defaultValue = "2") int nProgrammers) {
+List<String> getMostBugsProgrammers(@RequestParam(name=N_PROGRAMMERS, defaultValue = "2") @Min(1) int nProgrammers) {
 	List<String> res = bugsReporter.getProgrammersMostBugs(nProgrammers);
 	LOG.debug("getMostBugsProgrammers: list of programmers {}", res);
 	return res ;
 }
 @GetMapping(BUGS_PROGRAMMERS_LEAST)
-List<String> getLeastBugsProgrammers(@RequestParam(name = N_PROGRAMMERS, defaultValue = "2") int nProgrammers) {
+List<String> getLeastBugsProgrammers(@RequestParam(name = N_PROGRAMMERS, defaultValue = "2") @Min(1) int nProgrammers) {
 	List<String> res = bugsReporter.getProgrammersLeastBugs(nProgrammers);
 	LOG.debug("getMostBugsProgrammers: list of programmers {}", res);
 	return res ;

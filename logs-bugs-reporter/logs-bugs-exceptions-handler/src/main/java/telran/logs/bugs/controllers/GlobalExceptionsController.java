@@ -32,12 +32,12 @@ public class GlobalExceptionsController {
 	String notFounHandler(NotFoundException e) {
 		return processingExceptions(e);
 	}
-
-	@ExceptionHandler(ServerException.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	String serverExceptionHandler(ServerException e) {
-		return processingExceptions(e);
-	}
+//
+//	@ExceptionHandler(ServerException.class)
+//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//	String serverExceptionHandler(ServerException e) {
+//		return processingExceptions(e);
+//	}
 
 	private String processingExceptions(Exception e) {
 		LOG.error("exception class: {}, message: {}", e.getClass().getSimpleName(), e.getMessage());
