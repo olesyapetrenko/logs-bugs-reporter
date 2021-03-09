@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AssignerMailProviderAppl {
 	static Logger LOG = LoggerFactory.getLogger(AssignerMailProviderAppl.class);
-	@Value("${app-assigner-mail:logs.bugs.reporter+assigner@gmail.com}")
+	@Value("${app-assigner-mail:reporter.logs.bugs+assigner@gmail.com}")
 	String assignerMail;
 
 	public static void main(String[] args) {
