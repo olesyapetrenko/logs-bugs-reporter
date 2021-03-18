@@ -7,3 +7,4 @@ import telran.logs.bugs.jpa.entities.Artifact;
 public interface ArtifactRepository extends JpaRepository<Artifact, String> {
 
 }
+
