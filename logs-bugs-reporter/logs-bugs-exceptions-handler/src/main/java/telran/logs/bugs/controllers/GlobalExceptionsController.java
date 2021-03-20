@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import telran.logs.bugs.exceptions.DuplicatedException;
 import telran.logs.bugs.exceptions.NotFoundException;
-import telran.logs.bugs.exceptions.ServerException;
 
 @RestControllerAdvice
 public class GlobalExceptionsController {
