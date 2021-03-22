@@ -18,20 +18,20 @@ services:
     build:
      logs-bugs-assigner-mail-provider
     mem_limit: 350m
-    mem_reservation: 100M 
+    mem_reservation: 100M
    
   logs-analyzer:
     build:
       logs-analyzer
     mem_limit: 350m
-    mem_reservation: 100M  
+    mem_reservation: 100M
     environment:
       - KAFKA_PASSWORD=pxWpEYrXQY4mfFpgJnHXDqUQDjVngwHp
   email-notifier:
     build:
       logs-bugs-email-notifier
     mem_limit: 350m
-    mem_reservation: 100M  
+    mem_reservation: 100M
     environment:
       - MAIL_PASSWORD=iraxhdwucpsygqdw
       - KAFKA_PASSWORD=pxWpEYrXQY4mfFpgJnHXDqUQDjVngwHp
@@ -40,7 +40,7 @@ services:
     build:
       logs-bugs-opening
     mem_limit: 350m
-    mem_reservation: 100M  
+    mem_reservation: 100M
     environment:
       - POSTGRES_PASSWORD=dd439869d041864d3858387e6ec42601901ca13a0117fd98bdc638395e9497dd
       - KAFKA_PASSWORD=pxWpEYrXQY4mfFpgJnHXDqUQDjVngwHp
@@ -51,7 +51,7 @@ services:
     build:
       logs-bugs-reporter-back-office
     mem_limit: 350m
-    mem_reservation: 100M  
+    mem_reservation: 100M
     environment:
       - POSTGRES_PASSWORD=dd439869d041864d3858387e6ec42601901ca13a0117fd98bdc638395e9497dd
       
@@ -59,7 +59,7 @@ services:
     build:
       logs-db-populator
     mem_limit: 350m
-    mem_reservation: 100M  
+    mem_reservation: 100M
     environment:
       - MONGO_PASSWORD=12345.com
       - KAFKA_PASSWORD=pxWpEYrXQY4mfFpgJnHXDqUQDjVngwHp
@@ -70,7 +70,7 @@ services:
     build:
       logs-info-back-office
     mem_limit: 350m
-    mem_reservation: 100M  
+    mem_reservation: 100M
     environment:
       - MONGO_PASSWORD=12345.com
       
