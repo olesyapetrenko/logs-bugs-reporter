@@ -1,8 +1,6 @@
 version: '2.1'
 services:
   discovery-server:
-    ports:
-      - "8761:8761"
     build:
       logs-bugs-discovery-server
       
@@ -45,9 +43,15 @@ services:
       - POSTGRES_PASSWORD=dd439869d041864d3858387e6ec42601901ca13a0117fd98bdc638395e9497dd
       - KAFKA_PASSWORD=pxWpEYrXQY4mfFpgJnHXDqUQDjVngwHp
       
-  bugs-reporter-back:
+  logs-bugs-gateway:
+    build:
+      logs-bugs-gateway  
     ports:
-      - "8282:8282"
+      - "9090:9090"
+    mem_limit: 350m
+    mem_reservation: 100M
+    
+  bugs-reporter-back:
     build:
       logs-bugs-reporter-back-office
     mem_limit: 350m
@@ -65,12 +69,18 @@ services:
       - KAFKA_PASSWORD=pxWpEYrXQY4mfFpgJnHXDqUQDjVngwHp
       
   logs-back:
-    ports:
-      - "8383:8080"
     build:
       logs-info-back-office
     mem_limit: 350m
     mem_reservation: 100M
     environment:
+      - MONGO_PASSWORD=12345.com
+      
+  accounts-provider:
+     build:
+       logs-bugs-accounts-provider
+     mem_limit: 350m
+     mem_reservation: 100M
+     environment:
       - MONGO_PASSWORD=12345.com
       

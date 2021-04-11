@@ -5,8 +5,41 @@
     <artifactId>logs-bugs-reporter</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>logs-bugs-gateway</artifactId>
-  <build>
+  <artifactId>logs-bugs-account-provider</artifactId>
+  <dependencies>
+ <dependency>
+  	<groupId>org.springframework.boot</groupId>
+  	<artifactId>spring-boot-starter-data-mongodb</artifactId>
+  	</dependency>
+  	<dependency>
+  	<groupId>telran.logs.bugs</groupId>
+    <artifactId>logs-bugs-accounts-mongodb</artifactId>
+    <version>0.0.1</version>
+  	</dependency>
+  	<dependency>
+  	<groupId>telran.logs.bugs</groupId>
+    <artifactId>log-bugs-dto</artifactId>
+    <version>0.0.1</version>
+  	</dependency>
+		<dependency>
+  		<groupId>org.springframework.cloud</groupId>
+  		<artifactId>
+  			spring-cloud-starter-netflix-eureka-client
+  		</artifactId>
+  	</dependency>
+	</dependencies>
+	 <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>org.springframework.cloud</groupId>
+  			<artifactId>spring-cloud-dependencies</artifactId>
+  			<version>2020.0.1</version>
+  			<type>pom</type>
+  			<scope>import</scope>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -14,42 +47,4 @@
 			</plugin>
 		</plugins>
 	</build>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.springframework.cloud</groupId>
-  		<artifactId>spring-cloud-gateway-webflux</artifactId>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.springframework.boot</groupId>
-  		<artifactId>spring-boot-starter-security</artifactId>
-  	</dependency>
-  	<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-  	<dependency>
-  	<groupId>telran.logs.bugs</groupId>
-    <artifactId>logs-bugs-loadbalancer</artifactId>
-    <version>0.0.1</version>
-  	</dependency>
-
-  	<dependency>
-  	<groupId>telran.logs.bugs</groupId>
-    <artifactId>log-bugs-dto</artifactId>
-    <version>0.0.1</version>
-  	</dependency>
-  </dependencies>
-  <dependencyManagement>
-  	<dependencies>
-  		<dependency>
-  			<groupId>org.springframework.cloud</groupId>
-  			<artifactId>spring-cloud-dependencies</artifactId>
-  			<version>2020.0.2</version>
-  			<type>pom</type>
-  			<scope>import</scope>
-  		</dependency>
-  	</dependencies>
-  </dependencyManagement>
-
-</project> 
+</project>
