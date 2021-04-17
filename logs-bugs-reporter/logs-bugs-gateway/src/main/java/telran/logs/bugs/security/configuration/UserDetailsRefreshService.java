@@ -1,4 +1,4 @@
-package telran.logs.bugs.security.configuration;
+ package telran.logs.bugs.security.configuration;
 
 import java.util.Arrays;
 import java.util.Base64;

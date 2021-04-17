@@ -32,6 +32,7 @@ public class AccountsProviderAppl {
 		List<Account> res = toAccounts(listAccountDocs );
 		return res ;
 	}
+	
 	private List<Account> toAccounts(List<AccountDocument> listAccountDocs) {
 
 		return listAccountDocs.stream()

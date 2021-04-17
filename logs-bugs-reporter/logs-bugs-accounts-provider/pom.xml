@@ -5,7 +5,7 @@
     <artifactId>logs-bugs-reporter</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>logs-bugs-account-provider</artifactId>
+  <artifactId>logs-bugs-accounts-provider</artifactId>
   <dependencies>
  <dependency>
   	<groupId>org.springframework.boot</groupId>
